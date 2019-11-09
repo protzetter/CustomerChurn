@@ -26,6 +26,11 @@ train<-select(train,-Exited)
 yTest<-select(test,Exited)
 test<-select(test,-Exited)
 
+trainMatrix<-as.matrix(as.data.frame(lapply(train, as.numeric)))
+yTrainMatrix<-as.matrix(as.data.frame(lapply(yTrain, as.numeric)))
+
+
+
 model <- keras_model_sequential() 
 model %>% 
   layer_dense(units = 5, activation = 'relu',input_shape=(c(10))) %>% 
@@ -41,8 +46,10 @@ model %>% compile(
 )
 
 history <- model %>% fit(
-  train, yTrain, 
+  trainMatrix, yTrainMatrix, 
   epochs = 30, batch_size = 128, 
   validation_split = 0.2
 )
+
+
 
